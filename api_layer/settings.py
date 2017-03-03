@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'aetos_material',
     'services',
+    'apis',
 ]
 
 MIDDLEWARE_CLASSES = [
