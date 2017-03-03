@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_extensions',
 
     'aetos_material',
+    'services',
 ]
 
 MIDDLEWARE_CLASSES = [
