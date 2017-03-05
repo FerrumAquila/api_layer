@@ -16,3 +16,4 @@ local_settings.py
 celerybeat-schedule
 
 db.sqlite3
+dump*
