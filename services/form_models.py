@@ -27,11 +27,12 @@ class ServiceAPIForm(html_forms.MaterialForm):
         'description': {'group_name': 'Info', 'pos': 2, 'col_class': 'col-sm-6'},
     }
 
-    def __init__(self, request, action, instance=None):
-        super(ServiceAPIForm, self).__init__(request, models.ServiceAPI, action, instance=instance)
+    def __init__(self, request, action, instance=None, parent=None):
+        super(ServiceAPIForm, self).__init__(request, models.ServiceAPI, action, instance=instance, parent=parent)
 
 
 class CreateServiceAPIForm(ServiceAPIForm):
-    def __init__(self, request):
-        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create'))
+    def __init__(self, request, parent):
+        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create'), parent=parent)
+        self.display_fields.pop(self.display_fields.index('service'))
 

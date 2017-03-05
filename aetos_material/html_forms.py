@@ -39,10 +39,11 @@ class MaterialForm(object):
 
     DISPLAY_MAP = dict()
 
-    def __init__(self, request, model, action=None, display_fields=None, instance=None):
+    def __init__(self, request, model, action=None, instance=None, parent=None, display_fields=None):
         self.model = model
         self.request = request
         self.instance = instance
+        self.parent = parent
         self.action = action
         self._meta = self.model._meta
         self.validation_html = render_to_string(self.FORM_GROUP_VALIDATION_TEMPLATE, request=self.request)
@@ -202,7 +203,7 @@ class MaterialForm(object):
                 for group_name, field_group in field_groups.items()}
 
     @property
-    def form(self):
+    def form_data(self):
         return self._render_form(self._field_groups)
 
     def _get_model_field(self, field):
@@ -211,10 +212,17 @@ class MaterialForm(object):
                 return df
 
     def _render_form(self, groups):
+        form_id = '%s-%s-form' % (
+            self._meta.label_lower.split('.')[-1],
+            self.instance.id if self.instance else calendar.timegm(time.gmtime())
+        )
         return render_to_string(self.MATERIAL_FORM_TEMPLATE, {
-            'id': self.instance.id if self.instance else calendar.timegm(time.gmtime()), 'action': self.action,
-            'groups': self._render_field_group(groups), 'type': self._meta.label_lower.split('.')[-1]
-        }, request=self.request)
+            'form_id': form_id,
+            'action': self.action,
+            'groups': self._render_field_group(groups),
+            'parent_id': self.parent.pk if self.parent else None,
+            'parent_key': self.parent._meta.label_lower.split('.')[-1] if self.parent else None,
+        }, request=self.request), form_id
 
     def _render_field_group(self, groups):
         return {name: [self._render_form_field(fg[0], fg[1]) for fg in form_groups] for name, form_groups in groups.items()}

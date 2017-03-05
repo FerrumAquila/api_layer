@@ -20,12 +20,9 @@ $(document).ready(function() {
         }
     };
 
-    var add_parent_id = function(data, parent_form, parent_key){
-        var parent_json = serialize_form(parent_form.attr('id'), 'json');
-        var parent_value = parent_json.id;
-        if(!parent_value){
-            alert('parent ' + parent_key + ' is still unsaved\nplease save before continuing');
-        }
+    var add_parent_id = function(data, html_form){
+        var parent_value = html_form.data('parent-id');
+        var parent_key = html_form.data('parent-key');
         data[parent_key] = parent_value;
         return data
     };
@@ -78,7 +75,7 @@ $(document).ready(function() {
         var html_form = $('#' + form_id);
         var url = html_form.attr('action');
         var data = serialize_form(form_id, 'json');
-        var parent_card = null;
+        add_parent_id(data, html_form)
         if(data.id){
             switch(action){
                 case 'create':
@@ -95,7 +92,7 @@ $(document).ready(function() {
                     break;
             }
         }
-        var class_type = form_id.split('-')[0]
+        var class_type = form_id.split('-')[0];
 //        console.log('form id, action, url, data');
 //        console.log(form_id);
 //        console.log(action);

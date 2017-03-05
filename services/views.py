@@ -27,11 +27,12 @@ class CreateServiceAPIView(generics.ListCreateAPIView):
 
 @login_required(login_url='/login/')
 def register_service(request):
-    form = form_models.CreateServiceForm(request).form
-    return render_to_response('services/index.html', {'form': form})
+    form, form_id = form_models.CreateServiceForm(request).form_data
+    return render_to_response('services/index.html', {'form': form, 'form_id': form_id})
 
 
 @login_required(login_url='/login/')
-def register_api(request):
-    form = form_models.CreateServiceAPIForm(request).form
-    return render_to_response('services/api.html', {'form': form})
+def register_api(request, service):
+    service = models.Service.objects.get(name=service)
+    form, form_id = form_models.CreateServiceAPIForm(request, service).form_data
+    return render_to_response('services/api.html', {'form': form, 'form_id': form_id})

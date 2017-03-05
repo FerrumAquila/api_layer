@@ -1,4 +1,6 @@
-<form id='{{ type }}-{{ id }}-form' action='{{ action }}'>
+<form id='{{ form_id }}' action='{{ action }}'
+    data-parent-id='{{ parent_id }}'
+    data-parent-key='{{ parent_key }}'>
     {% csrf_token %}
     {% for group_name, form_groups in groups.items %}
     {% if form_groups %}
