@@ -59,7 +59,9 @@
 
 {% block footer_js %}
 <script type="text/javascript">
+var get_new_api_url = '{% url "service-api-register-new" %}'
 </script>
 <script src="{% static 'js/no-mouse-click.js' %}"></script>
+<script src="{% static 'js/services/utils.js' %}"></script>
 <script src="{% static 'js/services/app.js' %}"></script>
 {% endblock %}

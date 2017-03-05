@@ -1,0 +1,94 @@
+<div class='dashboard-container'>
+    <table class='table table-bordered' style='border: 1px solid #eeeeee; border-collapse: collapse;'>
+        <thead>
+            <tr style='text-align:center;'>
+                <th class='text-center'>Page Name</th>
+                <th class='text-center'>Page Type</th>
+                <th class='text-center'>User Type</th>
+                <th class='text-center'>Page UID</th>
+                <th class='text-center'>
+                    <a href='{% url "panel-new-page" %}'>
+                        <button class='btn btn-success waves-effect waves-button waves-float'>
+                            <span class='md md-add'></span>Add Page
+                        </button>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr style='text-align:center;' id='page-{{ object.id }}'>
+                <td class='mainID' style='display:none;'>{{ object.id }}</td>
+                <td>{{ object.name }}</td>
+                <td>{{ object.type }}</td>
+                <td>{{ object.viewer_type }}</td>
+                <td class='object_uid'>{{ object.name.0 }}{{ object.type.name.0 }}{{ object.viewer_type.name.0 }}{{ object.id }}</td>
+                <td class='text-center'>
+                    <a href='{% url "panel-update-page" object.id %}'>
+                        <button type='button' class='btn btn-icon btn-warning'>
+                            <span class='md md-edit'></span>
+                        </button>
+                    </a>
+                    <button type='button' class='btn btn-icon btn-danger page-delete'>
+                        <span class='md md-delete'></span>
+                    </button>
+                    <button data-url='{% url "panel-publish-page-api" object.id %}' type='button'
+                            class='btn btn-icon btn-primary page-publish'>
+                        <span class='md md-cloud-upload'></span>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+    <ul class='pagination'>
+        {% if page_obj.has_previous %}
+        <li>
+            <button class='btn btn-danger btn-icon waves-effect waves-button waves-float pagination-click'>
+                <i class='md md-arrow-back'></i>
+                <span style='display:none'>{{ page_obj.previous_page_number }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='disabled btn btn-danger btn-icon waves-effect waves-button waves-float'>
+                <i class='md md-arrow-back'></i>
+            </button>
+        </li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li>
+            <button class='btn btn-primary btn-icon waves-effect waves-button waves-float pagination-click'>
+                <span>{{ i }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='btn bgm-gray btn-icon waves-effect waves-button waves-float pagination-click'>
+                <span>{{ i }}</span>
+            </button>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li>
+            <button class='btn btn-danger btn-icon waves-effect waves-button waves-float pagination-click'>
+                <i class='md md-arrow-forward'></i>
+                <span style='display:none'>{{ page_obj.next_page_number }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='disabled btn btn-danger btn-icon waves-effect waves-button waves-float'>
+                <i class='md md-arrow-forward'></i>
+            </button>
+        </li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>

@@ -33,4 +33,5 @@ def register_service(request):
 
 @login_required(login_url='/login/')
 def register_api(request):
-    return render_to_response('services/api.html', {'form': '<h2>Service API FORM</h2>'})
+    form = form_models.CreateServiceAPIForm(request).form
+    return render_to_response('services/api.html', {'form': form})
