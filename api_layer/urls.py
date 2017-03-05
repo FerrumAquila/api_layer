@@ -21,6 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^services/', include('services.urls')),
     url(r'^api/(?P<api_version>[a-z A-Z 0-9]+)/', include('apis.urls')),
-    # url(r'^feed//merchandising/', include('merchandising_feed.urls')),
     url(r'^', include('aetos_material.urls'))
 ]
