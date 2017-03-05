@@ -1,4 +1,5 @@
 <form id='{{ type }}-{{ id }}-form' action='{{ action }}'>
+    {% csrf_token %}
     {% for group_name, form_groups in groups.items %}
     {% if form_groups %}
     <h6 class='c-black control-label' style='text-align: center; width: 100%'>{{ group_name }}</h6>
