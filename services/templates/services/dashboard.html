@@ -2,12 +2,10 @@
     <table class='table table-bordered' style='border: 1px solid #eeeeee; border-collapse: collapse;'>
         <thead>
             <tr style='text-align:center;'>
-                <th class='text-center'>Page Name</th>
-                <th class='text-center'>Page Type</th>
-                <th class='text-center'>User Type</th>
-                <th class='text-center'>Page UID</th>
+                <th class='text-center'>Service Name</th>
+                <th class='text-center'>API Count</th>
                 <th class='text-center'>
-                    <a href='{% url "panel-new-page" %}'>
+                    <a href='{% url "service-register-new" %}'>
                         <button class='btn btn-success waves-effect waves-button waves-float'>
                             <span class='md md-add'></span>Add Page
                         </button>
@@ -17,24 +15,13 @@
         </thead>
         <tbody>
         {% for object in object_list %}
-            <tr style='text-align:center;' id='page-{{ object.id }}'>
+            <tr style='text-align:center;' id='service-{{ object.id }}'>
                 <td class='mainID' style='display:none;'>{{ object.id }}</td>
                 <td>{{ object.name }}</td>
-                <td>{{ object.type }}</td>
-                <td>{{ object.viewer_type }}</td>
-                <td class='object_uid'>{{ object.name.0 }}{{ object.type.name.0 }}{{ object.viewer_type.name.0 }}{{ object.id }}</td>
+                <td>{{ object.apis.count }}</td>
                 <td class='text-center'>
-                    <a href='{% url "panel-update-page" object.id %}'>
-                        <button type='button' class='btn btn-icon btn-warning'>
-                            <span class='md md-edit'></span>
-                        </button>
-                    </a>
-                    <button type='button' class='btn btn-icon btn-danger page-delete'>
+                    <button type='button' class='btn btn-icon btn-danger service-delete'>
                         <span class='md md-delete'></span>
-                    </button>
-                    <button data-url='{% url "panel-publish-page-api" object.id %}' type='button'
-                            class='btn btn-icon btn-primary page-publish'>
-                        <span class='md md-cloud-upload'></span>
                     </button>
                 </td>
             </tr>

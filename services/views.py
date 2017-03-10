@@ -9,6 +9,7 @@ from rest_framework import generics
 # Django Imports
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 
 
 class CreateServiceView(generics.ListCreateAPIView):
@@ -23,6 +24,15 @@ class CreateServiceAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         service = self.kwargs.get(self.lookup_url_kwarg)
         return models.ServiceAPI.objects.filter(service__name=service)
+
+
+class ServicesListDashboard(ListView):
+    model = models.Service
+    paginate_by = 15
+    template_name = 'services/dashboard.html'
+
+    def get_queryset(self):
+        return models.Service.objects.all()
 
 
 @login_required(login_url='/login/')
