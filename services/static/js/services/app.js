@@ -6,6 +6,14 @@ $(document).ready(function() {
 
     var save_service = function(form_id){
         service_form = $('#' + form_id);
+        form_action(service_form.attr('id'), 'create');
+
+        service_api_cards = $('.card.api')
+        $.each(service_api_cards, function(i){
+            var service_api_card = service_api_cards.eq(i);
+            var service_api_form = service_api_card.children('.card-body').children('.form').children();
+            register_service_api(service_api_form.attr('id'));
+        })
     };
 
     var register_service_api = function(form_id){
