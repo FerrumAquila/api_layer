@@ -19,7 +19,7 @@ urlpatterns = [
     # Service APIs
 
     url(r'^(?P<service>[-\w]+)/api/new/$',
-        views.register_api,
+        views.register_service_api,
         name='service-api-register-new'),
 
 
@@ -38,7 +38,7 @@ urlpatterns = [
         views.CreateServiceAPIView.as_view(),
         name='service-api-drf-create'),
 
-    url(r'^(?P<service_id>[0-9]+)/api/drf/update/(?P<pk>[0-9]+)/$',
+    url(r'^api/drf/update/(?P<pk>[0-9]+)/$',
         views.ServiceAPIOperationsView.as_view(),
         name='service-api-drf-update'),
 ]

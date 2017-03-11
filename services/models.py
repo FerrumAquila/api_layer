@@ -1,4 +1,5 @@
 # App Imports
+import form_models
 from api_layer.custom_model_class import AetosModel
 
 # Packaged Imports
@@ -8,6 +9,7 @@ from aetos_serialiser.helpers import dict_reducer
 
 # Django Imports
 from django.db import models
+from django.template.loader import render_to_string
 
 
 class Service(AetosModel):
@@ -44,3 +46,7 @@ class ServiceAPI(AetosModel):
             REDUCER = dict_reducer
 
         return VersionedAPISerialiser if versioned else APISerialiser
+
+    def update_form(self, request):
+        form, form_id = form_models.UpdateServiceAPIForm(request, self).form_data
+        return render_to_string('services/api.html', {'form': form, 'form_id': form_id, 'timestamp': self.id})

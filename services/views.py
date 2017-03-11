@@ -2,6 +2,8 @@
 import models
 import serializer
 import form_models
+import calendar
+import time
 
 # Package Imports
 from rest_framework import generics
@@ -47,11 +49,7 @@ class CreateServiceAPIView(generics.ListCreateAPIView):
 class ServiceAPIOperationsView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializer.ServiceAPIDRF
     authentication_classes = (TokenAuthentication, )
-    lookup_url_kwarg = 'service_id'
-
-    def get_queryset(self):
-        service = self.kwargs.get(self.lookup_url_kwarg)
-        return models.ServiceAPI.objects.filter(service__name=service)
+    queryset = models.ServiceAPI.objects.all()
 
 
 # HTML Views
@@ -65,11 +63,14 @@ def register_service(request):
 def update_service(request, service):
     service = models.Service.objects.get(name=service)
     form, form_id = form_models.UpdateServiceForm(request, service).form_data
-    return render_to_response('services/index.html', {'service': service, 'form': form, 'form_id': form_id})
+    service_api_forms = [service_api.update_form(request) for service_api in service.apis.all()]
+    return render_to_response('services/index.html', {'service': service, 'form': form, 'form_id': form_id,
+                                                      'service_api_forms': service_api_forms})
 
 
 @login_required(login_url='/login/')
-def register_api(request, service):
+def register_service_api(request, service):
     service = models.Service.objects.get(name=service)
     form, form_id = form_models.CreateServiceAPIForm(request, service).form_data
-    return render_to_response('services/api.html', {'form': form, 'form_id': form_id})
+    return render_to_response('services/api.html', {'form': form, 'form_id': form_id,
+                                                    'timestamp': calendar.timegm(time.gmtime())})

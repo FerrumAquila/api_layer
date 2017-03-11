@@ -51,16 +51,16 @@
         </div>
     </div>
 
+    {% for service_api_form in service_api_forms %}
+    {{ service_api_form|safe }}
+    {% endfor %}
+
     <div class='card-padding card-body pull-right col-sm-4'>
         <button id='add_new_api' class='btn btn-primary btn-block waves-effect waves-button waves-float'
             data-form-id='{{ form_id }}'>
             add new api
         </button>
     </div>
-
-    {% for api in service.apis.all %}
-    <h1>{{ api.pk }}</h1>
-    {% endfor %}
 
 </section>
 {% endblock %}

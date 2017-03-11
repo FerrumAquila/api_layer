@@ -45,6 +45,6 @@ class UpdateServiceForm(ServiceForm):
 
 class UpdateServiceAPIForm(ServiceAPIForm):
     def __init__(self, request, service_api):
-        super(UpdateServiceAPIForm, self).__init__(request, reverse('service-api-drf-update'), instance=service_api, parent=service_api.service)
+        super(UpdateServiceAPIForm, self).__init__(request, reverse('service-api-drf-update', kwargs={'pk': service_api.pk}), instance=service_api, parent=service_api.service)
         self.display_fields.pop(self.display_fields.index('service'))
 
