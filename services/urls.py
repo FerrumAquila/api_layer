@@ -42,7 +42,7 @@ urlpatterns = [
         views.ListServiceAPIView.as_view(),
         name='service-api-drf-list'),
 
-    url(r'^/api/drf/create/$',
+    url(r'^api/drf/create/$',
         views.CreateServiceAPIView.as_view(),
         name='service-api-drf-create'),
 
