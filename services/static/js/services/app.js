@@ -13,6 +13,11 @@ $(document).ready(function() {
         form_action(service_api_form.attr('id'), 'create');
     };
 
+    var remove_service_api = function(form_id){
+        var service_api_form = $('#' + form_id);
+        form_action(service_api_form.attr('id'), 'remove');
+    };
+
     var add_new_api_html = function(service_name){
         var url = get_new_api_url.replace('6969aetos_service6969', service_name);
         $.get(url, function(response){
@@ -47,5 +52,9 @@ $(document).ready(function() {
 
     $('body').on('click', '.register_service_api', function(){
         register_service_api($(this).data('form-id'));
+    });
+
+    $('body').on('click', '.remove_service_api', function(){
+        remove_service_api($(this).data('form-id'));
     });
 });

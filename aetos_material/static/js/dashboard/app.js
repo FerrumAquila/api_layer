@@ -5,4 +5,7 @@ $(document).ready(function() {
 
     $('#services-dashboard').children('.card-body').children('.container').html($('#services-dashboard').children('.card-body').children('.container').children('.dashboard-container').html())
 
+    $('body').on('click', '.service-delete', function(){
+        delete_service($(this));
+    });
 });

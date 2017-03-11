@@ -83,12 +83,16 @@ $(document).ready(function() {
                     break;
                 case 'remove':
                     var action = 'delete';
+                    url = url.replace('update', 'delete')
                     break;
             }
         }else{
             switch(action){
                 case 'update':
                     var action = 'create';
+                    break;
+                case 'remove':
+                    var url = url.replace('create', 'delete')
                     break;
             }
         }
@@ -166,8 +170,9 @@ $(document).ready(function() {
 //                    console.log(dev_error);
                 });
             case 'remove':
-                alert('removing card ' + parent_card.attr('id'))
-                parent_card.remove();
+                service_api_card = html_form.parent().parent().parent()
+                service_api_card.remove()
+                alert('removing card ' + service_api_card.attr('id'))
                 break;
         }
     };

@@ -49,4 +49,4 @@ class ServiceAPI(AetosModel):
 
     def update_form(self, request):
         form, form_id = form_models.UpdateServiceAPIForm(request, self).form_data
-        return render_to_string('services/api.html', {'form': form, 'form_id': form_id, 'timestamp': self.id})
+        return render_to_string('services/api.html', {'object': self, 'form': form, 'form_id': form_id, 'timestamp': self.id})

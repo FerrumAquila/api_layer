@@ -25,7 +25,9 @@
                             <span class='md md-edit'></span>
                         </button>
                     </a>
-                    <button type='button' class='btn btn-icon btn-danger service-delete'>
+                    <button type='button' class='btn btn-icon btn-danger service-delete'
+                        data-service-id='{{ object.id }}'
+                        data-drf-url='{% url "service-drf-delete" pk=object.id %}'>
                         <span class='md md-delete'></span>
                     </button>
                 </td>
