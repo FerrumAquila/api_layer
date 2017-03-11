@@ -33,7 +33,7 @@ class CreateServiceForm(ServiceForm):
 
 class CreateServiceAPIForm(ServiceAPIForm):
     def __init__(self, request, service):
-        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create', kwargs={'service_id': service.pk}), parent=service)
+        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create'), parent=service)
         self.display_fields.pop(self.display_fields.index('service'))
 
 

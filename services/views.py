@@ -37,7 +37,16 @@ class ServiceOperationsView(generics.RetrieveUpdateDestroyAPIView):
 
 
 # Service API DRF Views
-class CreateServiceAPIView(generics.ListCreateAPIView):
+class ListServiceAPIView(generics.ListAPIView):
+    serializer_class = serializer.ServiceAPIDRF
+    lookup_url_kwarg = 'service'
+
+    def get_queryset(self):
+        service = self.kwargs.get(self.lookup_url_kwarg)
+        return models.ServiceAPI.objects.filter(service__name=service)
+
+
+class CreateServiceAPIView(generics.CreateAPIView):
     serializer_class = serializer.ServiceAPIDRF
     lookup_url_kwarg = 'service'
 

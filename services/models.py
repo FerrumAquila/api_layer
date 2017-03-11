@@ -1,4 +1,5 @@
 # App Imports
+import utils
 import form_models
 from api_layer.custom_model_class import AetosModel
 
@@ -15,6 +16,7 @@ from django.template.loader import render_to_string
 class Service(AetosModel):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
+    base_url = models.CharField(max_length=255)
 
     class Meta:
         verbose_name = 'Service'
@@ -27,6 +29,8 @@ class Service(AetosModel):
 class ServiceAPI(AetosModel):
     service = models.ForeignKey(Service, related_name='apis')
     body_map = models.TextField(default='{}')
+    endpoint = models.CharField(max_length=255)
+    doc_yaml = models.TextField(default='')
 
     @staticmethod
     def _parse_key_info(key_info):
@@ -46,6 +50,10 @@ class ServiceAPI(AetosModel):
             REDUCER = dict_reducer
 
         return VersionedAPISerialiser if versioned else APISerialiser
+
+    @property
+    def api_data(self):
+        return utils.YAMLParser(self.doc_yaml).required_json
 
     def update_form(self, request):
         form, form_id = form_models.UpdateServiceAPIForm(request, self).form_data

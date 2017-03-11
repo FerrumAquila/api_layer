@@ -38,7 +38,11 @@ urlpatterns = [
         name='service-drf-delete'),
 
     # Service APIs
-    url(r'^(?P<service_id>[0-9]+)/api/drf/create/$',
+    url(r'^(?P<service_id>[0-9]+)/api/drf/list/$',
+        views.ListServiceAPIView.as_view(),
+        name='service-api-drf-list'),
+
+    url(r'^/api/drf/create/$',
         views.CreateServiceAPIView.as_view(),
         name='service-api-drf-create'),
 
