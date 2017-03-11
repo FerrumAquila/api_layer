@@ -113,7 +113,7 @@ $(document).ready(function() {
                         var form_group = form_groups.eq(i);
                         handle_form_group_on_create_success(form_group, responseJSON);
                     });
-                    html_form.attr('action', html_form.attr('action') + responseJSON.id + '/');
+                    html_form.attr('action', html_form.attr('action').replace('create', 'update') + responseJSON.id + '/');
 
                 }).fail(function(error){
 //                    dev_error = error;
@@ -129,6 +129,10 @@ $(document).ready(function() {
                 });
                 break;
             case 'update':
+                $.extend(data, {
+                    'created_by': 1,
+                    'modified_by': 1
+                })
                 $.put(url, data, function(response){
 //                    dev_response = response;
 //                    console.log(dev_response);

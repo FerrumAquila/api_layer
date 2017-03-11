@@ -4,6 +4,10 @@ $(document).ready(function() {
         form_action(service_form.attr('id'), 'create');
     };
 
+    var save_service = function(form_id){
+        service_form = $('#' + form_id);
+    };
+
     var register_service_api = function(form_id){
         var service_api_form = $('#' + form_id);
         form_action(service_api_form.attr('id'), 'create');
@@ -24,6 +28,10 @@ $(document).ready(function() {
 
     $('body').on('click', '#register_service', function(){
         register_service($(this).data('form-id'));
+    });
+
+    $('body').on('click', '#save_service', function(){
+        save_service($(this).data('form-id'));
     });
 
     $('body').on('click', '#add_new_api', function(){
