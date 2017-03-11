@@ -1,7 +1,7 @@
 jQuery.ajaxSetup({async:false});
 $(document).ready(function() {
 
-    var serialize_form = function(form_id, serialize_type){
+    serialize_form = function(form_id, serialize_type){
         var html_form = $('#' + form_id);
         switch(serialize_type){
             case 'json':

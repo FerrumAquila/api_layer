@@ -25,9 +25,10 @@ $(document).ready(function() {
         var api = $('.card.api').last();
     };
 
-    var get_service_name = function(){
-        dev_service_card = $('.card.service');
-        return 'SMD'
+    var get_service_name = function(form_id){
+        dev_form_id = form_id
+        var form_data = serialize_form(form_id, 'json');
+        return form_data.name
     };
 
 
@@ -40,12 +41,11 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '#add_new_api', function(){
-        var service_name = get_service_name()
+        var service_name = get_service_name($(this).data('form-id'));
         add_new_api_html(service_name);
     });
 
     $('body').on('click', '.register_service_api', function(){
-        alert('register api')
         register_service_api($(this).data('form-id'));
     });
 });
