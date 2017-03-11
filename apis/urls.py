@@ -7,5 +7,5 @@ from django.conf.urls import url
 
 urlpatterns = [
     # App APIs
-    url(r'^test$', views.test_api, name='apis-test'),
+    url(r'^$', views.apis, name='apis'),
 ]
