@@ -5,6 +5,7 @@ from api_layer.custom_model_class import AetosModel
 
 # Packaged Imports
 import json
+import requests
 from aetos_serialiser.serialisers import Serializer, VersionedSerializer
 from aetos_serialiser.helpers import dict_reducer
 
@@ -51,9 +52,15 @@ class ServiceAPI(AetosModel):
 
         return VersionedAPISerialiser if versioned else APISerialiser
 
+    def fetch_data(self, params_data):
+        url = self.service.base_url + self.endpoint
+        params = {param['name']: params_data[param['name']] for param in self.api_data['parameters']}
+        response = requests.request(self.api_data['action'], url=url, params=params)
+        return response.json()
+
     @property
     def api_data(self):
-        return utils.YAMLParser(self.doc_yaml).required_json
+        return utils.YAMLParser(self.doc_yaml).instance
 
     def update_form(self, request):
         form, form_id = form_models.UpdateServiceAPIForm(request, self).form_data
