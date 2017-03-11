@@ -1,0 +1,19 @@
+[
+{
+    "model": "apis.endpoint",
+    "pk": 1,
+    "fields": {
+        "created": "2017-03-11T17:42:47.796Z",
+        "modified": "2017-03-11T17:44:24.434Z",
+        "created_by": 1,
+        "modified_by": 1,
+        "is_active": false,
+        "meta": "{}",
+        "body_map": "{'s': ['__default__1', 'int'], 'm': ['__default__through service app', 'str'], 'd': ['root_data', 'dict']}",
+        "name": "smd",
+        "service_apis": [
+            18
+        ]
+    }
+}
+]
