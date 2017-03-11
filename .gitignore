@@ -17,3 +17,4 @@ celerybeat-schedule
 
 db.sqlite3
 dump*
+/apis/data/
