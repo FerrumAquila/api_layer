@@ -25,6 +25,11 @@ $(document).ready(function() {
         var api = $('.card.api').last();
     };
 
+    var get_service_name = function(){
+        dev_service_card = $('.card.service');
+        return 'SMD'
+    };
+
 
     $('body').on('click', '#register_service', function(){
         register_service($(this).data('form-id'));
@@ -35,7 +40,8 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '#add_new_api', function(){
-        add_new_api_html('SMD');
+        var service_name = get_service_name()
+        add_new_api_html(service_name);
     });
 
     $('body').on('click', '.register_service_api', function(){

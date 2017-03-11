@@ -56,6 +56,11 @@
             add new api
         </button>
     </div>
+
+    {% for api in service.apis.all %}
+    <h1>{{ api.pk }}</h1>
+    {% endfor %}
+
 </section>
 {% endblock %}
 

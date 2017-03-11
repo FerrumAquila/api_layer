@@ -32,18 +32,19 @@ class CreateServiceForm(ServiceForm):
 
 
 class CreateServiceAPIForm(ServiceAPIForm):
-    def __init__(self, request, parent):
-        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create'), parent=parent)
+    def __init__(self, request, service):
+        super(CreateServiceAPIForm, self).__init__(request, reverse('service-api-drf-create', kwargs={'service_id': service.pk}), parent=service)
         self.display_fields.pop(self.display_fields.index('service'))
 
 
 class UpdateServiceForm(ServiceForm):
-    def __init__(self, request, instance):
-        super(UpdateServiceForm, self).__init__(request, reverse('service-drf-update'), instance=instance)
+    def __init__(self, request, service):
+        super(UpdateServiceForm, self).__init__(request, reverse('service-drf-update', kwargs={'pk': service.pk}),
+                                                instance=service)
 
 
 class UpdateServiceAPIForm(ServiceAPIForm):
-    def __init__(self, request, parent, instance):
-        super(UpdateServiceAPIForm, self).__init__(request, reverse('service-api-drf-update'), instance=instance, parent=parent)
+    def __init__(self, request, service_api):
+        super(UpdateServiceAPIForm, self).__init__(request, reverse('service-api-drf-update'), instance=service_api, parent=service_api.service)
         self.display_fields.pop(self.display_fields.index('service'))
 

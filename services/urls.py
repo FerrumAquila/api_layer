@@ -6,10 +6,17 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    ## CREATE HTMLs
+    ## HTMLs
+    # Services
     url(r'^new/$',
         views.register_service,
         name='service-register-new'),
+
+    url(r'^update/(?P<service>[-\w]+)/$',
+        views.update_service,
+        name='service-update'),
+
+    # Service APIs
 
     url(r'^(?P<service>[-\w]+)/api/new/$',
         views.register_api,

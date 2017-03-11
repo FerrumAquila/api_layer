@@ -20,6 +20,11 @@
                 <td>{{ object.name }}</td>
                 <td>{{ object.apis.count }}</td>
                 <td class='text-center'>
+                    <a href='{% url "service-update" service=object.name %}'>
+                        <button type='button' class='btn btn-icon btn-warning'>
+                            <span class='md md-edit'></span>
+                        </button>
+                    </a>
                     <button type='button' class='btn btn-icon btn-danger service-delete'>
                         <span class='md md-delete'></span>
                     </button>
