@@ -11,7 +11,13 @@ from aetos_serialiser.helpers import dict_reducer
 from django.db import models
 
 
+class API(AetosModel):
+    name = models.CharField(max_length=255)
+    version = models.CharField(max_length=63)
+
+
 class EndPoint(AetosModel):
+    api = models.ForeignKey(API, related_name='endpoints')
     request_map = models.TextField(default='{}')
     response_map = models.TextField(default='{}')
     name = models.CharField(max_length=255)

@@ -33,7 +33,7 @@ class ServiceAPI(AetosModel):
         url = self.service.base_url + self.endpoint
         params = {param['name']: params_data[param['name']] for param in self.api_data['parameters']}
         response = requests.request(self.api_data['action'], url=url, params=params)
-        return response.json()['d']
+        return response.json()['d'] if response.status_code == 200 else dict()
 
     @property
     def api_data(self):
