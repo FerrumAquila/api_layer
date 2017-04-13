@@ -2,18 +2,33 @@
 {% load staticfiles %}
 
 {% block title %}
-Panel Dashboard
+Services Dashboard
 {% endblock %}
 
 {% block content %}
 <section id='content' style='padding: 30px 30px 30px 30px;'>
     <div class='container'>
-        <h1>CONTAINER</h1>
+        <div class='card'>
+            <div class='card-header'>
+                <ul class='tab-nav tn-justified' tabindex='1' style='overflow: hidden; outline: none;'>
+                    <li class='waves-effect dashboard-button' data-dashboard-id='services-dashboard'><a href='#'>Services</a></li>
+                </ul>
+            </div>
+            <div class='card-body'>
+                <div class='card dashboard' id='services-dashboard'>
+                    <div class='card-body'>
+                        <div class='container'>
+                            {{ services_dashboard|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
 
 {% block footer_js %}
-<script type='text/javascript'>
-</script>
+<script src="{% static 'js/dashboard/utils.js' %}"></script>
+<script src="{% static 'js/dashboard/app.js' %}"></script>
 {% endblock %}

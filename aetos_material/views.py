@@ -1,3 +1,7 @@
+# App Imports
+from services import views as service_views
+
+# Django Imports
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login
@@ -35,4 +39,6 @@ def sign_out(request):
 
 @login_required(login_url='/login/')
 def dashboard(request):
-    return render_to_response("core/dashboard.html", {})
+    services_dashboard = service_views.ServicesListDashboard.as_view()(request)
+    services_dashboard.render()
+    return render_to_response("core/dashboard.html", {'services_dashboard': services_dashboard})

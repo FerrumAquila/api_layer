@@ -1,0 +1,75 @@
+{% extends "core/side-menu-base.html" %}
+{% load staticfiles %}
+
+{% block side_list %}
+{{ side_list|safe }}
+{% endblock %}
+
+{% block title %}
+{% if service %}{{ service.name }}{% else %}New{% endif %} - Service
+{% endblock %}
+
+{% block content %}
+<section id='content'>
+
+    <div class='card service' id='service'>
+        <div class='card-header'>
+            <h2>{% if service %}{{ service.name }}{% else %}New{% endif %} - Service
+                <button class='btn bgm-lightgreen api-all waves-effect waves-button waves-float'>
+                    <i class='md md-menu'></i>
+                </button>
+                {% if service %}
+                <button class='btn bgm-red waves-effect waves-button waves-float pull-right' id='remove_service'>
+                    <i class='md md-close'></i>
+                </button>
+                {% endif %}
+            </h2>
+        </div>
+
+        <div class='card-body card-padding'>
+            <div class='row form'>
+                {{ form|safe }}
+            </div>
+
+            <div class='row'>
+                <div class='form-group col-sm-3 pull-right'>
+                    <button class='btn btn-success pull-right waves-effect waves-button waves-float' id='register_service'
+                            data-form-id='{{ form_id }}'>
+                        <i class='md md-check'></i>Save Service Details
+                    </button>
+                </div>
+            </div>
+
+            <div class='row'>
+                <div class='form-group col-sm-3 pull-right'>
+                    <button class='btn btn-primary pull-right waves-effect waves-button waves-float' id='save_service'
+                            data-form-id='{{ form_id }}'>
+                        <i class='md md-check'></i>Save Service Details and APIs
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for service_api_form in service_api_forms %}
+    {{ service_api_form|safe }}
+    {% endfor %}
+
+    <div class='card-padding card-body pull-right col-sm-4'>
+        <button id='add_new_api' class='btn btn-primary btn-block waves-effect waves-button waves-float'
+            data-form-id='{{ form_id }}'>
+            add new api
+        </button>
+    </div>
+
+</section>
+{% endblock %}
+
+{% block footer_js %}
+<script type="text/javascript">
+var get_new_api_url = '{% url "service-api-register-new" service="6969aetos_service6969" %}'
+</script>
+<script src="{% static 'js/no-mouse-click.js' %}"></script>
+<script src="{% static 'js/services/utils.js' %}"></script>
+<script src="{% static 'js/services/app.js' %}"></script>
+{% endblock %}

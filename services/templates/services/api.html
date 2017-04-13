@@ -1,0 +1,21 @@
+<div class='card api' id='api-{{ timestamp }}'
+    data-form-id='{{ form_id }}'>
+    <div class='card-header'>
+        <h2>{% if object %}{{ object.id }}{% else %}New{% endif %} - Service API
+            <button class='btn bgm-red remove_service_api waves-effect waves-button waves-float pull-right'
+                    data-form-id='{{ form_id }}'>
+                <i class='md md-close'></i>
+            </button>
+            <button class='btn btn-success waves-effect waves-button waves-float register_service_api'
+                    data-form-id='{{ form_id }}'>
+                    <i class='md md-check'></i>Save API
+            </button>
+        </h2>
+    </div>
+
+    <div class='card-body card-padding'>
+        <div class='row form'>
+            {{ form|safe }}
+        </div>
+    </div>
+</div>

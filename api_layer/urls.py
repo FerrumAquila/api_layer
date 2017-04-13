@@ -19,5 +19,7 @@ from django.conf.urls import url, include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^services/', include('services.urls')),
+    url(r'^api/', include('apis.urls')),
     url(r'^', include('aetos_material.urls'))
 ]
