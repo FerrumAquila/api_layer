@@ -1,0 +1,63 @@
+[
+  {
+    "model": "services.service",
+    "pk": 1,
+    "fields": {
+      "created": "2017-03-11T16:58:10.851Z",
+      "modified": "2017-04-13T16:47:13.655Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "is_active": false,
+      "meta": "{}",
+      "name": "sample-service",
+      "description": "lol",
+      "base_url": "http://localhost:3000"
+    }
+  },
+  {
+    "model": "services.serviceapi",
+    "pk": 1,
+    "fields": {
+      "created": "2017-03-11T16:58:47.932Z",
+      "modified": "2017-04-13T16:47:13.671Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "is_active": false,
+      "meta": "{}",
+      "service": 1,
+      "endpoint": "/response/1",
+      "doc_yaml": "---\r\nconsumes:\r\n  - application/json\r\nproduces:\r\n  - application/json\r\ntags:\r\n  - merchandizing\r\n\r\naction: GET\r\n\r\nparameters:\r\n  - name: pageId\r\n    required: true\r\n    in: query\r\n    description: PageId\r\n    type: string\r\n  - name: pageType\r\n    required: true\r\n    in: query\r\n    description: Page Type\r\n    type: string\r\n  - name: userType\r\n    required: true\r\n    in: query\r\n    description: user type\r\n    type: string\r\n\r\nresponses:\r\n  200:\r\n    description: Returns the details of dynamic page\r\n    schema:\r\n      properties:\r\n        s:\r\n          description: success or failure code\r\n          type: integer\r\n        m:\r\n          description: response message\r\n          type: string\r\n        d:\r\n          description: dynamic page details\r\n          type: object"
+    }
+  },
+  {
+    "model": "apis.endpoint",
+    "pk": 1,
+    "fields": {
+      "created": "2017-03-11T17:42:47.796Z",
+      "modified": "2017-04-07T12:45:29.542Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "is_active": false,
+      "meta": "{}",
+      "api": 1,
+      "request_map": "{\"pageType\": [\"type\", \"str\"], \"pageId\": [\"name\", \"str\"], \"userType\": [\"user\", \"str\"]}",
+      "response_map": "{\"s\": [\"__default__1\", \"int\"], \"m\": [\"__default__through service app\", \"str\"], \"d\": [\"root_data\", \"dict\"]}",
+      "name": "sample/dev",
+      "service_apis": [1]
+    }
+  },
+  {
+    "model": "apis.api",
+    "pk": 1,
+    "fields": {
+      "created": "2017-03-11T17:42:47.796Z",
+      "modified": "2017-04-07T12:45:29.542Z",
+      "created_by": 1,
+      "modified_by": 1,
+      "is_active": false,
+      "meta": "{}",
+      "name": "dev-sample",
+      "version": "1"
+    }
+  }
+]
