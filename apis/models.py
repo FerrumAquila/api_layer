@@ -28,12 +28,11 @@ class EndPoint(AetosModel):
         return tuple([key_info[0], eval(key_info[1])])
 
     def fetch_data(self, params_data):
-        api_data = []
+        api_data = dict()
         for service_api in self.service_apis.all():
-            api_params = self.request_serialiser({'root_data': params_data}).required_json
-            api_response = {'root_data': service_api.fetch_data(api_params['d'])}
-            api_data.append(self.response_serialiser(api_response).required_json)
-        return api_data if len(api_data) > 1 else api_data[0]
+            api_params = self.request_serialiser(params_data).required_json
+            api_data.update({'root_data': {service_api.pk: service_api.fetch_data(api_params)}})
+        return self.response_serialiser(api_data).required_json
 
     @property
     def request_serialiser(self, versioned=False):
