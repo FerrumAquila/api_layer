@@ -17,7 +17,6 @@ urlpatterns = [
         name='service-update'),
 
     # Service APIs
-
     url(r'^(?P<service>[-\w]+)/api/new/$',
         views.register_service_api,
         name='service-api-register-new'),
