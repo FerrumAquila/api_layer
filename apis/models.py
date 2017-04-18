@@ -29,6 +29,18 @@ class EndPoint(AetosModel):
     def api_data(self):
         return utils.YAMLParser(self.doc_yaml).instance
 
+    @property
+    def get_request_map(self):
+        type_map = {'integer': 'int', 'object': 'dict', 'string': 'str'}
+        params = self.api_data['parameters']
+        return {param['key']: [param['name'], type_map[param['type']]] for param in params}
+
+    @property
+    def get_response_map(self):
+        type_map = {'integer': 'int', 'object': 'dict', 'string': 'str'}
+        params = self.api_data['responses'][200]['schema']['properties']
+        return {param_key: [param_value['key'], type_map[param_value['type']]] for param_key, param_value in params.items()}
+
     @staticmethod
     def _parse_key_info(key_info):
         return tuple([key_info[0], eval(key_info[1])])
@@ -37,7 +49,7 @@ class EndPoint(AetosModel):
         api_data = dict()
         for service_api in self.service_apis.all():
             api_params = self._request_serialiser(params_data).required_json
-            api_data.update({'root_data': {service_api.pk: service_api.fetch_data(api_params)}})
+            api_data.update({'root_data': {str(service_api.pk): service_api.fetch_data(api_params)}})
         return self._response_serialiser(api_data).required_json
 
     @property
@@ -67,4 +79,6 @@ class EndPoint(AetosModel):
         return VersionedAPISerialiser if versioned else APISerialiser
 
     def save(self, *args, **kwargs):
+        self.request_map = json.dumps(self.get_request_map)
+        self.response_map = json.dumps(self.get_response_map)
         super(EndPoint, self).save(*args, **kwargs)
