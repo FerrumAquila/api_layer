@@ -1,4 +1,5 @@
 # App Imports
+from api_layer import utils
 from api_layer.custom_model_class import AetosModel
 from services import models as service_models
 
@@ -22,6 +23,11 @@ class EndPoint(AetosModel):
     response_map = models.TextField(default='{}')
     name = models.CharField(max_length=255)
     service_apis = models.ManyToManyField(service_models.ServiceAPI, related_name='endpoints')
+    doc_yaml = models.TextField(default='')
+
+    @property
+    def api_data(self):
+        return utils.YAMLParser(self.doc_yaml).instance
 
     @staticmethod
     def _parse_key_info(key_info):
