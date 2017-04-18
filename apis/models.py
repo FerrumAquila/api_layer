@@ -36,16 +36,16 @@ class EndPoint(AetosModel):
     def fetch_data(self, params_data):
         api_data = dict()
         for service_api in self.service_apis.all():
-            api_params = self.request_serialiser(params_data).required_json
+            api_params = self._request_serialiser(params_data).required_json
             api_data.update({'root_data': {service_api.pk: service_api.fetch_data(api_params)}})
-        return self.response_serialiser(api_data).required_json
+        return self._response_serialiser(api_data).required_json
 
     @property
-    def request_serialiser(self, versioned=False):
+    def _request_serialiser(self, versioned=False):
         return self._serialiser('request', versioned)
 
     @property
-    def response_serialiser(self, versioned=False):
+    def _response_serialiser(self, versioned=False):
         return self._serialiser('response', versioned)
 
     def _serialiser(self, sr_type, versioned=False):
