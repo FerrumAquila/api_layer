@@ -65,3 +65,6 @@ class EndPoint(AetosModel):
             REDUCER = dict_reducer
 
         return VersionedAPISerialiser if versioned else APISerialiser
+
+    def save(self, *args, **kwargs):
+        super(EndPoint, self).save(*args, **kwargs)
