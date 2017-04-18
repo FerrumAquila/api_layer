@@ -1,4 +1,5 @@
 # App Imports
+from api_layer import utils
 from api_layer.custom_model_class import AetosModel
 from services import models as service_models
 
@@ -22,6 +23,23 @@ class EndPoint(AetosModel):
     response_map = models.TextField(default='{}')
     name = models.CharField(max_length=255)
     service_apis = models.ManyToManyField(service_models.ServiceAPI, related_name='endpoints')
+    doc_yaml = models.TextField(default='')
+
+    @property
+    def api_data(self):
+        return utils.YAMLParser(self.doc_yaml).instance
+
+    @property
+    def get_request_map(self):
+        type_map = {'integer': 'int', 'object': 'dict', 'string': 'str'}
+        params = self.api_data['parameters']
+        return {param['key']: [param['name'], type_map[param['type']]] for param in params}
+
+    @property
+    def get_response_map(self):
+        type_map = {'integer': 'int', 'object': 'dict', 'string': 'str'}
+        params = self.api_data['responses'][200]['schema']['properties']
+        return {param_key: [param_value['key'], type_map[param_value['type']]] for param_key, param_value in params.items()}
 
     @staticmethod
     def _parse_key_info(key_info):
@@ -30,16 +48,16 @@ class EndPoint(AetosModel):
     def fetch_data(self, params_data):
         api_data = dict()
         for service_api in self.service_apis.all():
-            api_params = self.request_serialiser(params_data).required_json
-            api_data.update({'root_data': {service_api.pk: service_api.fetch_data(api_params)}})
-        return self.response_serialiser(api_data).required_json
+            api_params = self._request_serialiser(params_data).required_json
+            api_data.update({'root_data': {str(service_api.pk): service_api.fetch_data(api_params)}})
+        return self._response_serialiser(api_data).required_json
 
     @property
-    def request_serialiser(self, versioned=False):
+    def _request_serialiser(self, versioned=False):
         return self._serialiser('request', versioned)
 
     @property
-    def response_serialiser(self, versioned=False):
+    def _response_serialiser(self, versioned=False):
         return self._serialiser('response', versioned)
 
     def _serialiser(self, sr_type, versioned=False):
@@ -59,3 +77,8 @@ class EndPoint(AetosModel):
             REDUCER = dict_reducer
 
         return VersionedAPISerialiser if versioned else APISerialiser
+
+    def save(self, *args, **kwargs):
+        self.request_map = json.dumps(self.get_request_map)
+        self.response_map = json.dumps(self.get_response_map)
+        super(EndPoint, self).save(*args, **kwargs)

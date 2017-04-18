@@ -2,8 +2,12 @@
   "response": [
     {
       "id": 1,
-      "title": "Sample Response",
-      "author": "ironeagle"
+      "s": 1,
+      "m": "simple json server",
+      "d": {
+        "title": "Sample Response",
+        "author": "ironeagle"
+      }
     }
   ]
 }
