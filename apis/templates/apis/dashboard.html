@@ -2,10 +2,10 @@
     <table class='table table-bordered' style='border: 1px solid #eeeeee; border-collapse: collapse;'>
         <thead>
             <tr style='text-align:center;'>
-                <th class='text-center'>Service Name</th>
-                <th class='text-center'>API Count</th>
+                <th class='text-center'>API Name</th>
+                <th class='text-center'>End Point Count</th>
                 <th class='text-center'>
-                    <a href='{% url "service-register-new" %}'>
+                    <a href='{% url "api-new" %}'>
                         <button class='btn btn-success waves-effect waves-button waves-float'>
                             <span class='md md-add'></span>Add Page
                         </button>
@@ -15,19 +15,19 @@
         </thead>
         <tbody>
         {% for object in object_list %}
-            <tr style='text-align:center;' id='service-{{ object.id }}'>
+            <tr style='text-align:center;' id='api-{{ object.id }}'>
                 <td class='mainID' style='display:none;'>{{ object.id }}</td>
                 <td>{{ object.name }}</td>
                 <td>{{ object.apis.count }}</td>
                 <td class='text-center'>
-                    <a href='{% url "service-update" service=object.name %}'>
+                    <a href='{% url "api-update" api=object.name %}'>
                         <button type='button' class='btn btn-icon btn-warning'>
                             <span class='md md-edit'></span>
                         </button>
                     </a>
-                    <button type='button' class='btn btn-icon btn-danger service-delete'
-                        data-service-id='{{ object.id }}'
-                        data-drf-url='{% url "service-drf-delete" pk=object.id %}'>
+                    <button type='button' class='btn btn-icon btn-danger api-delete'
+                        data-api-id='{{ object.id }}'
+                        data-drf-url='{% url "api-drf-delete" pk=object.id %}'>
                         <span class='md md-delete'></span>
                     </button>
                 </td>

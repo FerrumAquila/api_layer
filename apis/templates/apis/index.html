@@ -6,20 +6,20 @@
 {% endblock %}
 
 {% block title %}
-{% if service %}{{ service.name }}{% else %}New{% endif %} - Service
+{% if api %}{{ api.name }}{% else %}New{% endif %} - API
 {% endblock %}
 
 {% block content %}
 <section id='content'>
 
-    <div class='card service' id='service'>
+    <div class='card api' id='api'>
         <div class='card-header'>
-            <h2>{% if service %}{{ service.name }}{% else %}New{% endif %} - Service
+            <h2>{% if api %}{{ api.name }}{% else %}New{% endif %} - API
                 <button class='btn bgm-lightgreen api-all waves-effect waves-button waves-float'>
                     <i class='md md-menu'></i>
                 </button>
-                {% if service %}
-                <button class='btn bgm-red waves-effect waves-button waves-float pull-right' id='remove_service'>
+                {% if api %}
+                <button class='btn bgm-red waves-effect waves-button waves-float pull-right' id='remove_api'>
                     <i class='md md-close'></i>
                 </button>
                 {% endif %}
@@ -33,26 +33,26 @@
 
             <div class='row'>
                 <div class='form-group col-sm-3 pull-right'>
-                    <button class='btn btn-success pull-right waves-effect waves-button waves-float' id='register_service'
+                    <button class='btn btn-success pull-right waves-effect waves-button waves-float' id='register_api'
                             data-form-id='{{ form_id }}'>
-                        <i class='md md-check'></i>Save Service Details
+                        <i class='md md-check'></i>Save API Details
                     </button>
                 </div>
             </div>
 
             <div class='row'>
                 <div class='form-group col-sm-3 pull-right'>
-                    <button class='btn btn-primary pull-right waves-effect waves-button waves-float' id='save_service'
+                    <button class='btn btn-primary pull-right waves-effect waves-button waves-float' id='save_api'
                             data-form-id='{{ form_id }}'>
-                        <i class='md md-check'></i>Save Service Details and APIs
+                        <i class='md md-check'></i>Save API Details and APIs
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    {% for service_api_form in service_api_forms %}
-    {{ service_api_form|safe }}
+    {% for end_point_form in end_point_forms %}
+    {{ end_point_form|safe }}
     {% endfor %}
 
     <div class='card-padding card-body pull-right col-sm-4'>
@@ -67,9 +67,9 @@
 
 {% block footer_js %}
 <script type="text/javascript">
-var get_new_api_url = '{% url "service-api-register-new" service="6969aetos_service6969" %}'
+var get_new_end_point_url = '{% url "end-point-new" api="6969aetos_api6969" %}'
 </script>
 <script src="{% static 'js/no-mouse-click.js' %}"></script>
-<script src="{% static 'js/services/utils.js' %}"></script>
-<script src="{% static 'js/services/app.js' %}"></script>
+<script src="{% static 'js/common/utils.js' %}"></script>
+<script src="{% static 'js/apis/app.js' %}"></script>
 {% endblock %}
