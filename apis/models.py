@@ -1,4 +1,5 @@
 # App Imports
+import form_models
 from api_layer import utils
 from api_layer.custom_model_class import AetosModel
 from services import models as service_models
@@ -10,6 +11,7 @@ from aetos_serialiser.helpers import dict_reducer
 
 # Django Imports
 from django.db import models
+from django.template.loader import render_to_string
 
 
 class API(AetosModel):
@@ -82,3 +84,7 @@ class EndPoint(AetosModel):
         self.request_map = json.dumps(self.get_request_map)
         self.response_map = json.dumps(self.get_response_map)
         super(EndPoint, self).save(*args, **kwargs)
+
+    def update_form(self, request):
+        form, form_id = form_models.UpdateEndPointForm(request, self).form_data
+        return render_to_string('services/api.html', {'object': self, 'form': form, 'form_id': form_id, 'timestamp': self.id})

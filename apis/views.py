@@ -44,15 +44,15 @@ def register_api(request):
     return render_to_response('apis/index.html', {'form': form, 'form_id': form_id})
 
 
-# @login_required(login_url='/login/')
-# def update_api(request, api):
-#     api = models.API.objects.get(name=api)
-#     form, form_id = form_models.UpdateAPIForm(request, api).form_data
-#     api_api_forms = [api_api.update_form(request) for api_api in api.apis.all()]
-#     return render_to_response('apis/index.html', {'api': api, 'form': form, 'form_id': form_id,
-#                                                   'api_api_forms': api_api_forms})
-# 
-# 
+@login_required(login_url='/login/')
+def update_api(request, api):
+    api = models.API.objects.get(name=api)
+    form, form_id = form_models.UpdateAPIForm(request, api).form_data
+    end_point_forms = [end_point.update_form(request) for end_point in api.endpoints.all()]
+    return render_to_response('apis/index.html', {'api': api, 'form': form, 'form_id': form_id,
+                                                  'end_point_forms': end_point_forms})
+
+
 @login_required(login_url='/login/')
 def register_end_point(request, api):
     api = models.API.objects.get(name=api)
@@ -61,9 +61,26 @@ def register_end_point(request, api):
                                                 'timestamp': calendar.timegm(time.gmtime())})
 
 
+# API DRF Views
 class CreateAPIView(generics.ListCreateAPIView):
     serializer_class = serializer.APIDRF
     queryset = models.API.objects.all()
+
+
+class APIOperationsView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = serializer.APIDRF
+    authentication_classes = (TokenAuthentication, )
+    queryset = models.API.objects.all()
+
+
+# End Point DRF Views
+class ListEndPointView(generics.ListAPIView):
+    serializer_class = serializer.EndPointDRF
+    lookup_url_kwarg = 'api'
+
+    def get_queryset(self):
+        api = self.kwargs.get(self.lookup_url_kwarg)
+        return models.EndPoint.objects.filter(api__name=api)
 
 
 class CreateEndPointView(generics.CreateAPIView):
@@ -73,5 +90,12 @@ class CreateEndPointView(generics.CreateAPIView):
     def get_queryset(self):
         api = self.kwargs.get(self.lookup_url_kwarg)
         return models.EndPoint.objects.filter(api__name=api)
+
+
+class EndPointOperationsView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = serializer.EndPointDRF
+    authentication_classes = (TokenAuthentication, )
+    queryset = models.EndPoint.objects.all()
+
 
 

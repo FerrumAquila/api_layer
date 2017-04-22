@@ -20,14 +20,14 @@
                 <td>{{ object.name }}</td>
                 <td>{{ object.endpoints.count }}</td>
                 <td class='text-center'>
-                    <a href=''>
+                    <a href='{% url "api-update" api=object.name %}'>
                         <button type='button' class='btn btn-icon btn-warning'>
                             <span class='md md-edit'></span>
                         </button>
                     </a>
                     <button type='button' class='btn btn-icon btn-danger api-delete'
                         data-api-id='{{ object.id }}'
-                        data-drf-url=''>
+                        data-drf-url='{% url "api-drf-delete" pk=object.id %}'>
                         <span class='md md-delete'></span>
                     </button>
                 </td>
