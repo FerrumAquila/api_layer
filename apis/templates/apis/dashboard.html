@@ -18,16 +18,16 @@
             <tr style='text-align:center;' id='api-{{ object.id }}'>
                 <td class='mainID' style='display:none;'>{{ object.id }}</td>
                 <td>{{ object.name }}</td>
-                <td>{{ object.apis.count }}</td>
+                <td>{{ object.endpoints.count }}</td>
                 <td class='text-center'>
-                    <a href='{% url "api-update" api=object.name %}'>
+                    <a href=''>
                         <button type='button' class='btn btn-icon btn-warning'>
                             <span class='md md-edit'></span>
                         </button>
                     </a>
                     <button type='button' class='btn btn-icon btn-danger api-delete'
                         data-api-id='{{ object.id }}'
-                        data-drf-url='{% url "api-drf-delete" pk=object.id %}'>
+                        data-drf-url=''>
                         <span class='md md-delete'></span>
                     </button>
                 </td>

@@ -11,6 +11,7 @@ from rest_framework.authentication import TokenAuthentication
 
 # Django Imports
 from django.http import JsonResponse
+from django.views.generic import ListView
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -29,6 +30,14 @@ def apis(request, api_version, api_name):
 
 
 # HTML Views
+class APIListDashboard(ListView):
+    model = models.API
+    paginate_by = 15
+    template_name = 'apis/dashboard.html'
+
+    def get_queryset(self):
+        return models.API.objects.all()
+
 @login_required(login_url='/login/')
 def register_api(request):
     form, form_id = form_models.CreateAPIForm(request).form_data
@@ -47,8 +56,6 @@ def register_api(request):
 @login_required(login_url='/login/')
 def register_end_point(request, api):
     api = models.API.objects.get(name=api)
-    print "\napi"
-    print api
     form, form_id = form_models.CreateEndPointForm(request, api).form_data
     return render_to_response('apis/api.html', {'form': form, 'form_id': form_id,
                                                 'timestamp': calendar.timegm(time.gmtime())})

@@ -11,7 +11,8 @@ Services Dashboard
         <div class='card'>
             <div class='card-header'>
                 <ul class='tab-nav tn-justified' tabindex='1' style='overflow: hidden; outline: none;'>
-                    <li class='waves-effect dashboard-button' data-dashboard-id='services-dashboard'><a href='#'>Services</a></li>
+                    <li class='active waves-effect dashboard-button' data-dashboard-id='services-dashboard'><a href='#'>Services</a></li>
+                    <li class='waves-effect dashboard-button' data-dashboard-id='apis-dashboard'><a href='#'>APIs</a></li>
                 </ul>
             </div>
             <div class='card-body'>
@@ -23,12 +24,21 @@ Services Dashboard
                     </div>
                 </div>
             </div>
+            <div class='card-body'>
+                <div class='card dashboard' id='apis-dashboard'>
+                    <div class='card-body'>
+                        <div class='container'>
+                            {{ apis_dashboard|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 {% endblock %}
 
 {% block footer_js %}
-<script src="{% static 'js/dashboard/utils.js' %}"></script>
 <script src="{% static 'js/dashboard/app.js' %}"></script>
+<script src="{% static 'js/dashboard/utils.js' %}"></script>
 {% endblock %}
