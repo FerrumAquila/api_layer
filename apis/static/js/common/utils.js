@@ -8,7 +8,25 @@ $(document).ready(function() {
                 var form_array = html_form.serializeArray();
                 var form_json = {};
                 $.each(form_array, function(i){
-                    form_json[form_array[i].name] = get_valid_form_value(form_array[i].name, form_array[i].value);
+                    key = form_array[i].name;
+                    value = form_array[i].value;
+                    if(form_json.hasOwnProperty(key)){
+                        console.log('\nkey, multiselect, value, get_valid_form_value(key, multiselect)')
+                        console.log(key)
+                        multiselect = form_json[key];
+                        console.log(multiselect)
+                        console.log(get_valid_form_value(key, value))
+                        if(!(multiselect.constructor == Array)){
+                            multiselect = [value, multiselect];
+                        }else{
+                            multiselect.push(get_valid_form_value(key, value));
+                        }
+                        console.log(multiselect)
+                        var cleaned_value = multiselect;
+                    }else{
+                        var cleaned_value = get_valid_form_value(key, value);
+                    }
+                    form_json[key] = cleaned_value;
                 });
                 return form_json
             case 'array':
