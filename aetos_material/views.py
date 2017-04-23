@@ -46,5 +46,6 @@ def dashboard(request):
     apis_dashboard.render()
     return render_to_response("core/dashboard.html", {
         'services_dashboard': services_dashboard,
-        'apis_dashboard': apis_dashboard
+        'apis_dashboard': apis_dashboard,
+        'priority_dashboard': 'apis'
     })
