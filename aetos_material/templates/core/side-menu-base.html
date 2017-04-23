@@ -88,15 +88,26 @@
     <script src="{% static 'vendors/bootstrap-growl/bootstrap-growl.min.js' %}"></script>
     <script src="{% static 'vendors/sweet-alert/sweet-alert.min.js' %}"></script>
 
+    <script src="{% static 'vendors/moment/moment.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'vendors/chosen/chosen.jquery.min.js' %}"></script>
+    <script src="{% static 'vendors/noUiSlider/jquery.nouislider.all.min.js' %}"></script>
+    <script src="{% static 'vendors/input-mask/input-mask.min.js' %}"></script>
+    <script src="{% static 'vendors/farbtastic/farbtastic.min.js' %}"></script>
+    <script src="{% static 'vendors/summernote/summernote.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'vendors/fileinput/fileinput.min.js' %}"></script>
+
     <script src="{% static 'js/flot-charts/curved-line-chart.js' %}"></script>
     <script src="{% static 'js/flot-charts/line-chart.js' %}"></script>
-    <script src="{% static 'js/charts.js' %}"></script>
 
     <script src="{% static 'js/charts.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
     <script src="{% static 'js/demo.js' %}"></script>
 
-    
+    <script type="text/javascript">
+    var function_js = '{% static "js/functions.js" %}'
+    </script>
     {% block footer_css %}
     {% endblock %}
 

@@ -37,6 +37,7 @@ $(document).ready(function() {
             }
         });
         var api = $('.card.api').last();
+        $.getScript(function_js);
     };
 
     var get_api_name = function(form_id){
