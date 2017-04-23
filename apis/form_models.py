@@ -18,6 +18,7 @@ class APIForm(html_forms.MaterialForm):
 
 class EndPointForm(html_forms.MaterialForm):
     DISPLAY_MAP = {
+        'service_apis': {'group_name': 'Service APIs', 'pos': 1, 'col_class': 'col-sm-12'},
         'name': {'group_name': 'Info', 'pos': 1, 'col_class': 'col-sm-6'},
         'doc_yaml': {'group_name': 'Doc', 'pos': 1, 'col_class': 'col-sm-12'},
     }
@@ -26,6 +27,7 @@ class EndPointForm(html_forms.MaterialForm):
         super(EndPointForm, self).__init__(request, models.EndPoint, action, instance=instance, parent=parent)
         self.display_fields.pop(self.display_fields.index('response_map'))
         self.display_fields.pop(self.display_fields.index('request_map'))
+        self.display_fields.pop(self.display_fields.index('api'))
 
 
 class CreateAPIForm(APIForm):
@@ -36,7 +38,6 @@ class CreateAPIForm(APIForm):
 class CreateEndPointForm(EndPointForm):
     def __init__(self, request, api):
         super(CreateEndPointForm, self).__init__(request, reverse('end-point-drf-create'), parent=api)
-        self.display_fields.pop(self.display_fields.index('api'))
 
 
 class UpdateAPIForm(APIForm):
@@ -48,5 +49,4 @@ class UpdateEndPointForm(EndPointForm):
     def __init__(self, request, end_point):
         super(UpdateEndPointForm, self).__init__(request, reverse('end-point-drf-update', kwargs={'pk': end_point.pk}),
                                                  instance=end_point, parent=end_point.api)
-        self.display_fields.pop(self.display_fields.index('api'))
 
