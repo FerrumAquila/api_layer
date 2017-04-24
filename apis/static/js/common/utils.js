@@ -11,17 +11,12 @@ $(document).ready(function() {
                     key = form_array[i].name;
                     value = form_array[i].value;
                     if(form_json.hasOwnProperty(key)){
-                        console.log('\nkey, multiselect, value, get_valid_form_value(key, multiselect)')
-                        console.log(key)
                         multiselect = form_json[key];
-                        console.log(multiselect)
-                        console.log(get_valid_form_value(key, value))
                         if(!(multiselect.constructor == Array)){
-                            multiselect = [value, multiselect];
+                            multiselect = [get_valid_form_value(key, value), multiselect];
                         }else{
                             multiselect.push(get_valid_form_value(key, value));
                         }
-                        console.log(multiselect)
                         var cleaned_value = multiselect;
                     }else{
                         var cleaned_value = get_valid_form_value(key, value);
@@ -40,9 +35,12 @@ $(document).ready(function() {
 
     var add_parent_id = function(data, html_form){
         var parent_value = html_form.data('parent-id');
-        var parent_key = html_form.data('parent-key');
-        data[parent_key] = parent_value;
-        return data
+        if(parent_value){
+            var parent_key = html_form.data('parent-key');
+            data += ('&' + parent_key + '=' + parent_value);
+            return [true, data]
+        }
+        return [false, data]
     };
 
     var get_valid_form_value = function(key, value){
@@ -92,9 +90,11 @@ $(document).ready(function() {
     form_action = function(form_id, action){
         var html_form = $('#' + form_id);
         var url = html_form.attr('action');
-        var data = serialize_form(form_id, 'json');
-        add_parent_id(data, html_form)
-        if(data.id){
+        var data = html_form.serialize()
+        add_parent = add_parent_id(data, html_form)
+        has_parent = add_parent[0]
+        data = add_parent[1]
+        if(has_parent){
             switch(action){
                 case 'create':
                     var action = 'update';
