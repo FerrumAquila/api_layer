@@ -29,7 +29,7 @@ class EndPointDRF(serializers.ModelSerializer):
         fields = ('pk', 'api', 'request_map', 'response_map', 'name', 'service_apis', 'doc_yaml')
 
     def create(self, validated_data):
-        service_apis = validated_data.pop('service_api_ids')
+        service_apis = validated_data.pop('service_apis')
         super_response = super(EndPointDRF, self).create(validated_data)
         for service_api in service_apis:
             super_response.service_apis.add(service_api)

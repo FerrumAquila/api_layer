@@ -38,9 +38,9 @@ $(document).ready(function() {
         if(parent_value){
             var parent_key = html_form.data('parent-key');
             data += ('&' + parent_key + '=' + parent_value);
-            return [true, data]
+            return data
         }
-        return [false, data]
+        return data
     };
 
     var get_valid_form_value = function(key, value){
@@ -91,10 +91,8 @@ $(document).ready(function() {
         var html_form = $('#' + form_id);
         var url = html_form.attr('action');
         var data = html_form.serialize()
-        add_parent = add_parent_id(data, html_form)
-        has_parent = add_parent[0]
-        data = add_parent[1]
-        if(has_parent){
+        data = add_parent_id(data, html_form)
+        if(serialize_form(form_id, 'json').id){
             switch(action){
                 case 'create':
                     var action = 'update';
@@ -122,10 +120,6 @@ $(document).ready(function() {
 //        console.log(data);
         switch(action){
             case 'create':
-                $.extend(data, {
-                    'created_by': 1,
-                    'modified_by': 1
-                })
                 $.post(url, data, function(response){
 //                    dev_response = response;
 //                    console.log(dev_response);
@@ -151,10 +145,6 @@ $(document).ready(function() {
                 });
                 break;
             case 'update':
-                $.extend(data, {
-                    'created_by': 1,
-                    'modified_by': 1
-                })
                 $.put(url, data, function(response){
 //                    dev_response = response;
 //                    console.log(dev_response);

@@ -87,7 +87,7 @@ class MaterialForm(object):
                 'template_type': 'multiselect',
                 'context': {
                     'label': df.verbose_name, 'input_name': df.name, 'is_null': df.null,
-                    'input_placeholder': getattr(self.instance, df.name).all().values_list('id', flat=True),
+                    'input_placeholder': getattr(self.instance, df.name).all().values_list('id', flat=True) if self.instance else [],
                     'options': [{'name': o.pk, 'verbose': str(o)} for o in df.related_model.objects.filter()],
                     'validation': self.validation_html,
                     'col_class': dfm['col_class']
