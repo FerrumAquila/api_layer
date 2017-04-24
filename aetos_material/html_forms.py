@@ -21,6 +21,7 @@ class MaterialForm(object):
     TEXT_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/text-input.html'
     DATETIME_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/datetime-input.html'
     BOOL_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/bool-input.html'
+    MULTISELECT_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/multiselect-input.html'
 
     FORM_GROUP_VALIDATION_TEMPLATE = 'material-forms/form-groups/validation.html'
     MATERIAL_FORM_TEMPLATE = 'material-forms/form.html'
@@ -55,8 +56,8 @@ class MaterialForm(object):
         self.get_fk_choices = lambda df: [{'name': choice.pk, 'verbose': choice.name}
                                           for choice in df.related_model.objects.filter()]
 
-        self.display_fields = display_fields or [field.name for field in self._meta.fields
-                                                 if not self.display_ignore(field)]
+        self.meta_fields = self._meta.fields + self._meta.many_to_many
+        self.display_fields = display_fields or [field.name for field in self.meta_fields if not self.display_ignore(field)]
 
         self._get_template_data = {
             related_fields.ForeignKey: lambda df, dfm: {
@@ -77,6 +78,17 @@ class MaterialForm(object):
                     'label': df.verbose_name, 'input_name': df.name, 'is_null': df.null,
                     'input_placeholder': getattr(self.instance, df.name, ''),
                     'options': df.related_model.objects.filter(),
+                    'validation': self.validation_html,
+                    'col_class': dfm['col_class']
+                }
+            },
+            related_fields.ManyToManyField: lambda df, dfm: {
+                'template_path': self.MULTISELECT_FORM_GROUP_TEMPLATE,
+                'template_type': 'multiselect',
+                'context': {
+                    'label': df.verbose_name, 'input_name': df.name, 'is_null': df.null,
+                    'input_placeholder': getattr(self.instance, df.name).all().values_list('id', flat=True) if self.instance else [],
+                    'options': [{'name': o.pk, 'verbose': str(o)} for o in df.related_model.objects.filter()],
                     'validation': self.validation_html,
                     'col_class': dfm['col_class']
                 }
@@ -207,7 +219,7 @@ class MaterialForm(object):
         return self._render_form(self._field_groups)
 
     def _get_model_field(self, field):
-        for df in self._meta.fields:
+        for df in self.meta_fields:
             if df.name == field:
                 return df
 

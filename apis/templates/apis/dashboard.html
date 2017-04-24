@@ -1,0 +1,88 @@
+<div class='dashboard-container'>
+    <table class='table table-bordered' style='border: 1px solid #eeeeee; border-collapse: collapse;'>
+        <thead>
+            <tr style='text-align:center;'>
+                <th class='text-center'>API Name</th>
+                <th class='text-center'>End Point Count</th>
+                <th class='text-center'>
+                    <a href='{% url "api-new" %}'>
+                        <button class='btn btn-success waves-effect waves-button waves-float'>
+                            <span class='md md-add'></span>Add Page
+                        </button>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr style='text-align:center;' id='api-{{ object.id }}'>
+                <td class='mainID' style='display:none;'>{{ object.id }}</td>
+                <td>{{ object.name }}</td>
+                <td>{{ object.endpoints.count }}</td>
+                <td class='text-center'>
+                    <a href='{% url "api-update" api=object.name %}'>
+                        <button type='button' class='btn btn-icon btn-warning'>
+                            <span class='md md-edit'></span>
+                        </button>
+                    </a>
+                    <button type='button' class='btn btn-icon btn-danger api-delete'
+                        data-api-id='{{ object.id }}'
+                        data-drf-url='{% url "api-drf-delete" pk=object.id %}'>
+                        <span class='md md-delete'></span>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_paginated %}
+    <ul class='pagination'>
+        {% if page_obj.has_previous %}
+        <li>
+            <button class='btn btn-danger btn-icon waves-effect waves-button waves-float pagination-click'>
+                <i class='md md-arrow-back'></i>
+                <span style='display:none'>{{ page_obj.previous_page_number }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='disabled btn btn-danger btn-icon waves-effect waves-button waves-float'>
+                <i class='md md-arrow-back'></i>
+            </button>
+        </li>
+        {% endif %}
+
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li>
+            <button class='btn btn-primary btn-icon waves-effect waves-button waves-float pagination-click'>
+                <span>{{ i }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='btn bgm-gray btn-icon waves-effect waves-button waves-float pagination-click'>
+                <span>{{ i }}</span>
+            </button>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <li>
+            <button class='btn btn-danger btn-icon waves-effect waves-button waves-float pagination-click'>
+                <i class='md md-arrow-forward'></i>
+                <span style='display:none'>{{ page_obj.next_page_number }}</span>
+            </button>
+        </li>
+        {% else %}
+        <li>
+            <button class='disabled btn btn-danger btn-icon waves-effect waves-button waves-float'>
+                <i class='md md-arrow-forward'></i>
+            </button>
+        </li>
+        {% endif %}
+    </ul>
+    {% endif %}
+</div>
