@@ -5,28 +5,14 @@
                     data-section='{{ section }}'
                     data-input-name='{{ input_name }}'
                     data-placeholder='Choose {{ label }}...' style='display: none;'>
-                <option value='United States'>United States</option>
-                <option value='United Kingdom'>United Kingdom</option>
-                <option value='Afghanistan'>Afghanistan</option>
-                <option value='Aland Islands'>Aland Islands</option>
-                <option value='Albania'>Albania</option>
-                <option value='Algeria'>Algeria</option>
-                <option value='American Samoa'>American Samoa</option>
+                {% for option in options %}
+                {% if option.name in input_placeholder %}
+                <option selected value='{{ option.name }}'>{{ option.verbose }}</option>
+                {% else %}
+                <option value='{{ option.name }}'>{{ option.verbose }}</option>
+                {% endif %}
+                {% endfor %}
             </select>
-
-            <div class='chosen-container chosen-container-multi' style='width: 100%;' title=''>
-                <div class='chosen-drop'>
-                    <ul class='chosen-results'>
-                        <li class='active-result' data-option-array-index='0'>United States</li>
-                        <li class='active-result' data-option-array-index='1'>United Kingdom</li>
-                        <li class='active-result' data-option-array-index='2'>Afghanistan</li>
-                        <li class='active-result' data-option-array-index='3'>Aland Islands</li>
-                        <li class='active-result' data-option-array-index='4'>Albania</li>
-                        <li class='active-result' data-option-array-index='5'>Algeria</li>
-                        <li class='active-result' data-option-array-index='6'>American Samoa</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </div>
