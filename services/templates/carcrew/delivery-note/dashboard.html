@@ -1,0 +1,78 @@
+{% extends "core/base.html" %}
+{% load staticfiles %}
+{% load custom_tags %}
+
+{% block title %}
+Car Crew - Delivery Note
+{% endblock %}
+
+
+{% block header_css %}
+<style>
+    .active-container {
+    width:85%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .inactive-container {
+    width:5%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+    }
+
+    .row.row-eq-height {
+    display: flex;
+    flex-wrap: wrap;
+    }
+
+    .delivery-note {
+    padding-top: 40px;
+    margin-bottom: 20px;
+    }
+
+    .clear-fix{
+    padding-top: 10px;
+    }
+
+    .row{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 20px;
+    }
+
+    .status-meta{
+    padding: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section id="delivery-note-summary" style="
+    width: 80%;
+    margin: 0 auto;
+">
+    <div class="row row-eq-height">
+        {% for status, property in properties.statuses.items %}
+        {% include 'carcrew/delivery-note/summary_box.html' %}
+        {% endfor %}
+    </div>
+</section>
+
+
+<section id="delivery-note-list" style="
+    width: 60%;
+    margin: 0 auto;
+">
+    {% for note in delivery_notes %}
+        {% include 'carcrew/delivery-note/delivery_note.html' %}
+    {% endfor %}
+</section>
+{% endblock %}
+
+{% block footer_js %}
+<script type="text/javascript">
+var STATUS_SLAB_COLOR_CLASS = "{{ properties.status_slab_color_class }}";
+var NOTE_HTML_URL = "{% url 'car-crew-add-delivery-note' %}";
+</script>
+<script src="{% static 'js/carcrew/delivery-note/utils.js' %}"></script>
+<script src="{% static 'js/carcrew/delivery-note/app.js' %}"></script>
+{% endblock %}

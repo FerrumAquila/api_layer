@@ -1,0 +1,19 @@
+{% load custom_tags %}
+<div class="row row-eq-height {{ properties|get_color:note.status }} delivery-note" id="note_{{ note.id }}"
+     data-status="{{ note.status }}"
+     data-color-class="{{ properties|get_color:note.status }}">
+    {% for status, property in properties.statuses.items %}
+    {% if status == note.status %}
+    <div class="bgm-white active-container"
+         data-status="{{ note.status }}"
+         data-color-class="{{ property.color_class }}">
+        {% include 'carcrew/delivery-note/delivery_details.html' %}
+    </div>
+    {% else %}
+    <div class="{{ property.color_class }} inactive-container"
+         data-status="{{ status }}"
+         data-color-class="{{ property.color_class }}">
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>

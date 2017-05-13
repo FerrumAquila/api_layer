@@ -52,4 +52,15 @@ urlpatterns = [
     url(r'^api/drf/delete/(?P<pk>[0-9]+)/$',
         views.ServiceAPIOperationsView.as_view(),
         name='service-api-drf-delete'),
+
+
+    # Car Crew
+    url(r'^car-crew/$',
+        views.dashboard,
+        name='car-crew'),
+
+    url(r'^car-crew/delivery-note/add/$',
+        views.delivery_details_html,
+        name='car-crew-add-delivery-note'),
+
 ]

@@ -14,6 +14,11 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 
+# CarCrew Django Imports
+from collections import OrderedDict
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
 
 # Service DRF Views
 class ServicesListDashboard(ListView):
@@ -83,3 +88,55 @@ def register_service_api(request, service):
     form, form_id = form_models.CreateServiceAPIForm(request, service).form_data
     return render_to_response('services/api.html', {'form': form, 'form_id': form_id,
                                                     'timestamp': calendar.timegm(time.gmtime())})
+
+
+properties = {
+    'statuses': OrderedDict((
+        ('pending', {
+            'verbose': 'Pending',
+            'color_class': 'bgm-gray',
+            'items': 0,
+        }),
+        ('scheduled', {
+            'verbose': 'Scheduled',
+            'color_class': 'bgm-blue',
+            'items': 0,
+        }),
+        ('picked', {
+            'verbose': 'Picked',
+            'color_class': 'bgm-yellow',
+            'items': 0,
+        }),
+        ('delivered', {
+            'verbose': 'Delivered',
+            'color_class': 'bgm-green',
+            'items': 0,
+        }),
+    )),
+    'distribution_class': 'col-md-3',
+    'status_slab_color_class': 'bgm-white',
+}
+
+
+def dashboard(request):
+    delivery_notes = [{'id': 1, 'status': 'pending'}, {'id': 2, 'status': 'picked'}, {'id': 3, 'status': 'delivered'},
+                      {'id': 4, 'status': 'picked'}, {'id': 5, 'status': 'scheduled'}, {'id': 6, 'status': 'delivered'},
+                      {'id': 7, 'status': 'pending'}, {'id': 8, 'status': 'picked'}, {'id': 9, 'status': 'delivered'},
+                      {'id': 10, 'status': 'picked'}, {'id': 11, 'status': 'scheduled'}]
+
+    for delivery_note in delivery_notes:
+        prop = properties['statuses'][delivery_note['status']]
+        prop['items'] += 1
+
+    return render_to_response('carcrew/delivery-note/dashboard.html',
+                              {'properties': properties, 'delivery_notes': delivery_notes})
+
+
+def delivery_details_html(request):
+    import datetime
+    now = datetime.datetime.now()
+    pk = 'ajax_%s' % (now.today() - now).seconds
+    delivery_note = {'id': pk, 'status': 'pending'}
+    delivery_html = render_to_string('carcrew/delivery-note/delivery_note.html', {'properties': properties, 'note': delivery_note})
+    response = {'success': True, 'html': delivery_html, 'id': pk}
+    return JsonResponse(data=response)

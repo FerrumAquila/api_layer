@@ -29,10 +29,10 @@
         <header id="header">
             <ul class="header-inner">
                 <li class="logo hidden-xs">
-                    <a href="{% url 'core-home' %}">HOME</a>
+                    <a href="#home">HOME</a>
                 </li>
                 <li class="logo hidden-xs pull-right">
-                    <a href="{% url 'core-sign-out' %}">LOG OUT</a>
+                    <a href="#log-out">LOG OUT</a>
                 </li>
             </ul>
         </header>
@@ -45,7 +45,6 @@
 
     <!-- Javascript Libraries -->
     <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
-    <script src="{% static 'knockout-3.3.0.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
     <script src="{% static 'vendors/flot/jquery.flot.min.js' %}"></script>
@@ -63,35 +62,47 @@
     <script src="{% static 'vendors/bootstrap-growl/bootstrap-growl.min.js' %}"></script>
     <script src="{% static 'vendors/sweet-alert/sweet-alert.min.js' %}"></script>
 
+    <script src="{% static 'vendors/moment/moment.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-select/bootstrap-select.min.js' %}"></script>
+    <script src="{% static 'vendors/chosen/chosen.jquery.min.js' %}"></script>
+    <script src="{% static 'vendors/noUiSlider/jquery.nouislider.all.min.js' %}"></script>
+    <script src="{% static 'vendors/input-mask/input-mask.min.js' %}"></script>
+    <script src="{% static 'vendors/farbtastic/farbtastic.min.js' %}"></script>
+    <script src="{% static 'vendors/summernote/summernote.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'vendors/fileinput/fileinput.min.js' %}"></script>
+
     <script src="{% static 'js/flot-charts/curved-line-chart.js' %}"></script>
     <script src="{% static 'js/flot-charts/line-chart.js' %}"></script>
-    <script src="{% static 'js/charts.js' %}"></script>
 
     <script src="{% static 'js/charts.js' %}"></script>
     <script src="{% static 'js/functions.js' %}"></script>
     <script src="{% static 'js/demo.js' %}"></script>
 
+    <script type="text/javascript">
+    var function_js = '{% static "js/functions.js" %}'
+    </script>
     {% block footer_css %}
     {% endblock %}
 
     <script type="text/javascript">
-        jQuery.each(["put", "delete"], function(i, method) {
-            jQuery[method] = function(url, data, callback, type) {
-                if (jQuery.isFunction(data)) {
-                    type = type || callback;
-                    callback = data;
-                    data = undefined;
-                }
+            jQuery.each(["put", "delete"], function(i, method) {
+                jQuery[method] = function(url, data, callback, type) {
+                    if (jQuery.isFunction(data)) {
+                        type = type || callback;
+                        callback = data;
+                        data = undefined;
+                    }
 
-                return jQuery.ajax({
-                    url: url,
-                    type: method,
-                    dataType: type,
-                    data: data,
-                    success: callback
-                });
-            };
-        });
+                    return jQuery.ajax({
+                        url: url,
+                        type: method,
+                        dataType: type,
+                        data: data,
+                        success: callback
+                    });
+                };
+            });
     </script>
 
     {% block footer_js %}
