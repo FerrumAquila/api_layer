@@ -26,7 +26,7 @@ class EndPoint(AetosModel):
     name = models.CharField(max_length=255)
     service_apis = models.ManyToManyField(service_models.ServiceAPI, related_name='endpoints')
     doc_yaml = models.TextField(default='')
-    doc_json = models.TextField(default='')
+    doc_json = models.TextField(default='{}')
 
     @property
     def api_data(self):
