@@ -61,6 +61,11 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '.register_end_point', function(){
+        json_editor = $('#' + $(this).data('form-id')).find('.json_editor');
+        ace_editor = ace.edit(json_editor[0]);
+        db_value = JSON.stringify(JSON.parse(ace_editor.getValue()));
+        json_editor.parent('.fg-line').children('textarea').val(db_value);
+
         register_end_point($(this).data('form-id'));
     });
 
