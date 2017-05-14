@@ -162,7 +162,7 @@ class MaterialForm(object):
                 }
             },
             model_fields.TextField: lambda df, dfm: {
-                'template_path': self.TEXT_FORM_GROUP_TEMPLATE if not df.name == 'doc_yaml' else self.JSON_FORM_GROUP_TEMPLATE,
+                'template_path': self.JSON_FORM_GROUP_TEMPLATE if df.name == 'doc_json' else self.TEXT_FORM_GROUP_TEMPLATE ,
                 'template_type': 'text',
                 'context': {
                     'label': df.verbose_name, 'input_name': df.name, 'is_null': df.null,

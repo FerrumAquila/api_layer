@@ -26,7 +26,7 @@ class EndPointDRF(serializers.ModelSerializer):
 
     class Meta:
         model = models.EndPoint
-        fields = ('pk', 'api', 'request_map', 'response_map', 'name', 'service_apis', 'doc_yaml')
+        fields = ('pk', 'api', 'request_map', 'response_map', 'name', 'service_apis', 'doc_json')
 
     def create(self, validated_data):
         service_apis = validated_data.pop('service_apis')
