@@ -26,10 +26,11 @@ class EndPoint(AetosModel):
     name = models.CharField(max_length=255)
     service_apis = models.ManyToManyField(service_models.ServiceAPI, related_name='endpoints')
     doc_yaml = models.TextField(default='')
+    doc_json = models.TextField(default='')
 
     @property
     def api_data(self):
-        return utils.YAMLParser(self.doc_yaml).instance
+        return json.loads(self.doc_json)
 
     @property
     def get_request_map(self):
@@ -40,7 +41,7 @@ class EndPoint(AetosModel):
     @property
     def get_response_map(self):
         type_map = {'integer': 'int', 'object': 'dict', 'string': 'str'}
-        params = self.api_data['responses'][200]['schema']['properties']
+        params = self.api_data['responses']['200']['schema']['properties']
         return {param_key: [param_value['key'], type_map[param_value['type']]] for param_key, param_value in params.items()}
 
     @staticmethod
