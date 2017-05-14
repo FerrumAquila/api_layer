@@ -1,11 +1,9 @@
-# App Imports
+# Package Imports
+import time
 import models
+import calendar
 import serializer
 import form_models
-import calendar
-import time
-
-# Package Imports
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 
