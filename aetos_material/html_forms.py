@@ -19,6 +19,7 @@ class MaterialForm(object):
     INTEGER_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/integer-input.html'
     HIDDEN_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/hidden-input.html'
     TEXT_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/text-input.html'
+    JSON_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/json-input.html'
     DATETIME_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/datetime-input.html'
     BOOL_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/bool-input.html'
     MULTISELECT_FORM_GROUP_TEMPLATE = 'material-forms/form-groups/multiselect-input.html'
@@ -57,7 +58,8 @@ class MaterialForm(object):
                                           for choice in df.related_model.objects.filter()]
 
         self.meta_fields = self._meta.fields + self._meta.many_to_many
-        self.display_fields = display_fields or [field.name for field in self.meta_fields if not self.display_ignore(field)]
+        self.display_fields = display_fields or [field.name for field in self.meta_fields
+                                                 if not self.display_ignore(field)]
 
         self._get_template_data = {
             related_fields.ForeignKey: lambda df, dfm: {
@@ -160,7 +162,7 @@ class MaterialForm(object):
                 }
             },
             model_fields.TextField: lambda df, dfm: {
-                'template_path': self.TEXT_FORM_GROUP_TEMPLATE,
+                'template_path': self.TEXT_FORM_GROUP_TEMPLATE if not df.name == 'doc_yaml' else self.JSON_FORM_GROUP_TEMPLATE,
                 'template_type': 'text',
                 'context': {
                     'label': df.verbose_name, 'input_name': df.name, 'is_null': df.null,
@@ -240,10 +242,10 @@ class MaterialForm(object):
         return {name: [self._render_form_field(fg[0], fg[1]) for fg in form_groups] for name, form_groups in groups.items()}
 
     def _render_form_field(self, field, display_field_map):
-        if self._get_model_field(field):
-            template_data = self._get_template_data.get(type(self._get_model_field(field)), self._default_template_data)(
-                self._get_model_field(field), display_field_map
-            )
+        model_field = self._get_model_field(field)
+        default_data = self._default_template_data
+        if model_field:
+            template_data = self._get_template_data.get(type(model_field), default_data)(model_field, display_field_map)
         else:
             template_data = self._extra_field_template_data(field, display_field_map)
         return render_to_string(template_data['template_path'], template_data['context'], request=self.request)
