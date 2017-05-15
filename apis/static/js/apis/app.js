@@ -28,7 +28,6 @@ $(document).ready(function() {
 
     var add_new_api_html = function(api_name){
         var url = get_new_end_point_url.replace('6969aetos_api6969', api_name);
-        console.log(url)
         $.get(url, function(response){
             if($('.card.api').length){
                 $('.card.api').last().after(response);

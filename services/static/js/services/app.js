@@ -36,6 +36,7 @@ $(document).ready(function() {
             }
         });
         var api = $('.card.api').last();
+        $.getScript(function_js);
     };
 
     var get_service_name = function(form_id){
@@ -59,6 +60,11 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '.register_service_api', function(){
+        json_editor = $('#' + $(this).data('form-id')).find('.json_editor');
+        ace_editor = ace.edit(json_editor[0]);
+        db_value = JSON.stringify(JSON.parse(ace_editor.getValue()));
+        json_editor.parent('.fg-line').children('textarea').val(db_value);
+
         register_service_api($(this).data('form-id'));
     });
 

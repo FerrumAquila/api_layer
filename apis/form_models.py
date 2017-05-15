@@ -27,6 +27,7 @@ class EndPointForm(html_forms.MaterialForm):
         super(EndPointForm, self).__init__(request, models.EndPoint, action, instance=instance, parent=parent)
         self.display_fields.pop(self.display_fields.index('response_map'))
         self.display_fields.pop(self.display_fields.index('request_map'))
+        # self.display_fields.pop(self.display_fields.index('doc_json'))
         self.display_fields.pop(self.display_fields.index('doc_yaml'))
         self.display_fields.pop(self.display_fields.index('api'))
 

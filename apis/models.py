@@ -30,6 +30,7 @@ class EndPoint(AetosModel):
 
     @property
     def api_data(self):
+        # return utils.YAMLParser(self.doc_yaml).instance
         return json.loads(self.doc_json)
 
     @property

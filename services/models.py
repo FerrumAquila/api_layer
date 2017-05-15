@@ -4,6 +4,7 @@ from api_layer import utils
 from api_layer.custom_model_class import AetosModel
 
 # Packaged Imports
+import json
 import requests
 
 # Django Imports
@@ -28,6 +29,7 @@ class ServiceAPI(AetosModel):
     service = models.ForeignKey(Service, related_name='apis')
     endpoint = models.CharField(max_length=255)
     doc_yaml = models.TextField(default='')
+    doc_json = models.TextField(default='{}')
 
     def fetch_data(self, params_data):
         url = self.service.base_url + self.endpoint
@@ -37,7 +39,8 @@ class ServiceAPI(AetosModel):
 
     @property
     def api_data(self):
-        return utils.YAMLParser(self.doc_yaml).instance
+        # return utils.YAMLParser(self.doc_yaml).instance
+        return json.loads(self.doc_json)
 
     def update_form(self, request):
         form, form_id = form_models.UpdateServiceAPIForm(request, self).form_data
