@@ -18,12 +18,14 @@ class ServiceForm(html_forms.MaterialForm):
 
 class ServiceAPIForm(html_forms.MaterialForm):
     DISPLAY_MAP = {
-        'name': {'group_name': 'Info', 'pos': 1, 'col_class': 'col-sm-6'},
-        'description': {'group_name': 'Info', 'pos': 2, 'col_class': 'col-sm-6'},
+        'doc_json': {'group_name': 'Doc', 'pos': 1, 'col_class': 'col-sm-12'},
+        'endpoint': {'group_name': 'Info', 'pos': 1, 'col_class': 'col-sm-12'},
     }
 
     def __init__(self, request, action, instance=None, parent=None):
         super(ServiceAPIForm, self).__init__(request, models.ServiceAPI, action, instance=instance, parent=parent)
+        # self.display_fields.pop(self.display_fields.index('doc_json'))
+        self.display_fields.pop(self.display_fields.index('doc_yaml'))
 
 
 class CreateServiceForm(ServiceForm):

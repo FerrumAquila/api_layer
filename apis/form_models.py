@@ -20,13 +20,15 @@ class EndPointForm(html_forms.MaterialForm):
     DISPLAY_MAP = {
         'service_apis': {'group_name': 'Service APIs', 'pos': 1, 'col_class': 'col-sm-12'},
         'name': {'group_name': 'Info', 'pos': 1, 'col_class': 'col-sm-6'},
-        'doc_yaml': {'group_name': 'Doc', 'pos': 1, 'col_class': 'col-sm-12'},
+        'doc_json': {'group_name': 'Doc', 'pos': 1, 'col_class': 'col-sm-12'},
     }
 
     def __init__(self, request, action, instance=None, parent=None):
         super(EndPointForm, self).__init__(request, models.EndPoint, action, instance=instance, parent=parent)
         self.display_fields.pop(self.display_fields.index('response_map'))
         self.display_fields.pop(self.display_fields.index('request_map'))
+        # self.display_fields.pop(self.display_fields.index('doc_json'))
+        self.display_fields.pop(self.display_fields.index('doc_yaml'))
         self.display_fields.pop(self.display_fields.index('api'))
 
 

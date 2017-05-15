@@ -28,7 +28,6 @@ $(document).ready(function() {
 
     var add_new_api_html = function(api_name){
         var url = get_new_end_point_url.replace('6969aetos_api6969', api_name);
-        console.log(url)
         $.get(url, function(response){
             if($('.card.api').length){
                 $('.card.api').last().after(response);
@@ -61,6 +60,11 @@ $(document).ready(function() {
     });
 
     $('body').on('click', '.register_end_point', function(){
+        json_editor = $('#' + $(this).data('form-id')).find('.json_editor');
+        ace_editor = ace.edit(json_editor[0]);
+        db_value = JSON.stringify(JSON.parse(ace_editor.getValue()));
+        json_editor.parent('.fg-line').children('textarea').val(db_value);
+
         register_end_point($(this).data('form-id'));
     });
 

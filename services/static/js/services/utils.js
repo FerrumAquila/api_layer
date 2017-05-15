@@ -8,7 +8,20 @@ $(document).ready(function() {
                 var form_array = html_form.serializeArray();
                 var form_json = {};
                 $.each(form_array, function(i){
-                    form_json[form_array[i].name] = get_valid_form_value(form_array[i].name, form_array[i].value);
+                    key = form_array[i].name;
+                    value = form_array[i].value;
+                    if(form_json.hasOwnProperty(key)){
+                        multiselect = form_json[key];
+                        if(!(multiselect.constructor == Array)){
+                            multiselect = [get_valid_form_value(key, value), multiselect];
+                        }else{
+                            multiselect.push(get_valid_form_value(key, value));
+                        }
+                        var cleaned_value = multiselect;
+                    }else{
+                        var cleaned_value = get_valid_form_value(key, value);
+                    }
+                    form_json[key] = cleaned_value;
                 });
                 return form_json
             case 'array':
@@ -22,8 +35,11 @@ $(document).ready(function() {
 
     var add_parent_id = function(data, html_form){
         var parent_value = html_form.data('parent-id');
-        var parent_key = html_form.data('parent-key');
-        data[parent_key] = parent_value;
+        if(parent_value){
+            var parent_key = html_form.data('parent-key');
+            data += ('&' + parent_key + '=' + parent_value);
+            return data
+        }
         return data
     };
 
@@ -74,9 +90,9 @@ $(document).ready(function() {
     form_action = function(form_id, action){
         var html_form = $('#' + form_id);
         var url = html_form.attr('action');
-        var data = serialize_form(form_id, 'json');
-        add_parent_id(data, html_form)
-        if(data.id){
+        var data = html_form.serialize()
+        data = add_parent_id(data, html_form)
+        if(serialize_form(form_id, 'json').id){
             switch(action){
                 case 'create':
                     var action = 'update';
@@ -104,10 +120,6 @@ $(document).ready(function() {
 //        console.log(data);
         switch(action){
             case 'create':
-                $.extend(data, {
-                    'created_by': 1,
-                    'modified_by': 1
-                })
                 $.post(url, data, function(response){
 //                    dev_response = response;
 //                    console.log(dev_response);
@@ -133,10 +145,6 @@ $(document).ready(function() {
                 });
                 break;
             case 'update':
-                $.extend(data, {
-                    'created_by': 1,
-                    'modified_by': 1
-                })
                 $.put(url, data, function(response){
 //                    dev_response = response;
 //                    console.log(dev_response);

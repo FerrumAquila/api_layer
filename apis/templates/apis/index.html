@@ -66,8 +66,32 @@
 {% endblock %}
 
 {% block footer_js %}
+<script src="{% static 'js/ace-src/ace.js' %}"></script>
 <script type="text/javascript">
 var get_new_end_point_url = '{% url "end-point-new" api="6969aetos_api6969" %}'
+$(document).ready(function() {
+    editors = []
+    json_editors = $('.json_editor');
+    $.each(json_editors, function(i){
+        json_editor = json_editors.eq(i);
+        console.log(json_editor[0]);
+        editor = ace.edit(json_editor[0]);
+        editor.setTheme("ace/theme/twilight");
+        editor.getSession().setMode("ace/mode/json")
+        editor.getSession().setTabSize(2);
+        editor.getSession().setUseWrapMode(true);
+
+        pretty_json = JSON.stringify(JSON.parse(json_editor.parent('.fg-line').children('textarea').val()), null, '\t');
+        editor.setValue(pretty_json);
+
+        editor.setOptions({
+            maxLines: 25
+        });
+
+        editors.push(editor);
+    })
+});
+
 </script>
 <script src="{% static 'js/no-mouse-click.js' %}"></script>
 <script src="{% static 'js/common/utils.js' %}"></script>
